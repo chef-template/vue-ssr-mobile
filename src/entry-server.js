@@ -12,7 +12,7 @@ export default function(context) {
             if (!matchedComponents.length) {
                 return reject({ code: 404 })
             }
-
+            
             resolve(app)
         }, reject)
     })

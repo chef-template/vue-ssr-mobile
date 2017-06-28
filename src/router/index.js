@@ -4,6 +4,9 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
+const MODE = 'history'
+const VUE_ENV = process.env.VUE_ENV
+
 let notFound = {
     path: '*',
     meta: { title: '404' },
@@ -12,13 +15,29 @@ let notFound = {
 
 export function createRouter() {
     let router = new Router({
-        mode: 'history',
+        mode: MODE,
         routes: Object.keys(routes).reduce((previous, current) => {
             return (previous.push({path: current, ...routes[current]}), previous)
         }, []).concat(notFound),
         scrollBehavior(to, from, savedPosition) {
-            return { x: 0, y: 0 }
+            if (MODE === 'hash') {
+                document.body.scrollTop = 0
+            } else {
+                return { x: 0, y: 0 }
+            }
         }
+    })
+
+    router.beforeEach(({ matched }, from, next) => {
+        matched
+            .filter(({ meta }) => meta.title)
+            .map(({ meta }) => {
+                if (VUE_ENV === 'client') {
+                    document.title = meta.title
+                }                
+            })
+
+        next()
     })
 
     return router
