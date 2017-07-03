@@ -76,6 +76,13 @@ serverCompiler.watch({}, (err, stats) => {
 if(devServer.proxy){
     app.use(proxy(devServer.proxy))
 }
+app.use(function *(next) {
+    if (this.url === '/favicon.ico') {
+        return
+    }
+
+    yield *next
+})
 app.use(devMiddleware)
 app.use(hotMiddleware)
 app.use(function* (next) {

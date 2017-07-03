@@ -230,6 +230,11 @@
                 transitionName: ''
             }
         },
+        created() {
+            if (process.env.VUE_ENV === 'server') {
+                this.$ssrContext.title = this.$route.meta.title
+            }
+        },
         watch: {
             '$route' (to, from) {
                 if(urls[urls.length - 2] === to.path) {

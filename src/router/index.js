@@ -5,7 +5,6 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 const MODE = 'history'
-const VUE_ENV = process.env.VUE_ENV
 
 let notFound = {
     path: '*',
@@ -32,7 +31,7 @@ export function createRouter() {
         matched
             .filter(({ meta }) => meta.title)
             .map(({ meta }) => {
-                if (VUE_ENV === 'client') {
+                if (process.env.VUE_ENV === 'client') {
                     document.title = meta.title
                 }                
             })
