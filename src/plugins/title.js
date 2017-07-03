@@ -2,7 +2,7 @@ function plugin(Vue, opts) {
     opts = Object.assign({
         src: 'https://www.baidu.com/favicon.ico'
     }, opts)
-
+    
     Object.defineProperty(Vue.prototype, '$title', {
         get() {
             return document.title
@@ -30,8 +30,6 @@ function plugin(Vue, opts) {
     })
 }
 
-if (typeof window !== 'undefined' && window.Vue) {
-    window.Vue.use(plugin)
-}
+function noop(Vue, opts) {}
 
-export default plugin
+export default process.env.VUE_ENV === 'server' ? noop : plugin
