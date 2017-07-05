@@ -7,9 +7,6 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 const isDevelop = process.env.NODE_ENV === 'develop'
 
 module.exports = {
-    entry: {
-        main: [path.resolve(process.cwd(), 'src/entry-client.js')]
-    },
     output: {
         publicPath: '/',
         filename: 'bundle.js',

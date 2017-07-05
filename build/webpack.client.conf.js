@@ -6,6 +6,9 @@ let ExtractTextPlugin = require('extract-text-webpack-plugin')
 let VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 
 module.exports = merge(webpackBaseConfig, {
+    entry: {
+        main: [path.resolve(process.cwd(), 'src/entry-client.js')]
+    },
     output: {
         publicPath: '/',
         filename: 'js/[name].[hash].js',
