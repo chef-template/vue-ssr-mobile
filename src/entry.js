@@ -3,6 +3,8 @@ import App from './App'
 import http from 'vue-http'
 import title from 'plugins/title'
 import Layout from 'components/layout'
+import { sync } from 'vuex-router-sync'
+import { createStore }from './store'
 import { createRouter } from './router'
 
 Vue.use(http)
@@ -12,12 +14,18 @@ Vue.component('Layout', Layout)
 Vue.config.productionTip = false
 
 export function createApp() {
-    let router = createRouter()
+    let store, router
+
+    store = createStore()
+    router = createRouter()
+
+    sync(store, router)
 
     const app = new Vue({
+        store,
         router,
         render: (h) => h(App)
     })
 
-    return { app, router }
+    return { app, router, store }
 }

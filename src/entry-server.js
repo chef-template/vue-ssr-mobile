@@ -2,7 +2,7 @@ import { createApp } from './entry'
 
 export default function(context) {
     return new Promise((resolve, reject) => {
-        const { app, router } = createApp()
+        const { app, router, store } = createApp()
 
         router.push(context.url)
 
@@ -13,7 +13,17 @@ export default function(context) {
                 return reject({ code: 404 })
             }
             
-            resolve(app)
+            Promise.all(matchedComponents.map((Component) => {
+                if (Component.fetchData) {
+                    return Component.fetchData({
+                        store,
+                        route: router.currentRoute
+                    })
+                }
+            })).then(() => {
+                context.state = store.state
+                resolve(app)
+            }).catch(reject)
         }, reject)
     })
 }

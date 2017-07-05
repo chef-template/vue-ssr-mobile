@@ -3,8 +3,13 @@
 
 <script>
     export default {
-        data() {
-            return { text: 'Hello World'}
+        fetchData({ store, route }) {
+            return store.dispatch('fetch', 'Hello World')
+        },
+        computed: {
+            text() {
+                return this.$store.state.text
+            }
         }
     }
 </script>
